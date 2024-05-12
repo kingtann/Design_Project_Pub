@@ -1,30 +1,100 @@
-### Minimum Thickness 4
-# def minimum_thickness(slab_parameters):
-#     ### Transfer Parameters
-#     slab_thickness = slab_parameters['Thickness']
-#     slab_length = slab_parameters['Length']
-#     slab_support = slab_parameters['Support']
-#     main_bar = slab_parameters['Main Bar']
-#
-#     if main_bar == 414:
-#         if slab_support == 'Simply Supported':
-#             minimum_thickness = slab_length / 20
-#         elif slab_support == 'One-end Continuous':
-#             minimum_thickness= slab_length / 24
-#         elif slab_support == 'Both-end Continuous':
-#             minimum_thickness = slab_length / 28
-#         elif slab_support == 'Cantilever':
-#             minimum_thickness = slab_length / 10
-#     if main_bar < 414:
-#         if slab_support == 'Simply Supported':
-#             minimum_thickness = ((slab_length / 20) * (0.4 + (main_bar / 700)))
-#         elif slab_support == 'One-end Continuous':
-#             minimum_thickness = ((slab_length / 24) * (0.4 + (main_bar / 700)))
-#         elif slab_support == 'Both-end Continuous':
-#             minimum_thickness = ((slab_length / 28) * (0.4 + (main_bar / 700)))
-#         elif slab_support == 'Cantilever':
-#             minimum_thickness = ((slab_length / 10) * (0.4 + (main_bar / 700)))
-#         print("Minimum Thickness:" , minimum_thickness)
+### Design 4
+def design(slab_parameters,wu):
+    ### Transfer Parameters
+    slab_thickness = slab_parameters['Thickness']
+    slab_length = slab_parameters['Length']
+    slab_support = slab_parameters['Support']
+    main_bar = slab_parameters['Main Bar']
+
+    ### Minimum Thickness
+    if main_bar == 414:
+        if slab_support == 'Simply Supported':
+            minimum_thickness = round((slab_length*1000) / 20,2)
+            ratio = round(minimum_thickness/slab_thickness,2)
+            print("Thickness Minimum = L/20 mm"
+                  "\nThickness Minimum =", minimum_thickness,
+                  "\nRatio = ", ratio)
+            if ratio < 1:
+                print("PASS")
+            else:
+                print("FAIL")
+        elif slab_support == 'One-end Continuous':
+            minimum_thickness= round((slab_length*1000) / 24,2)
+            ratio = round(minimum_thickness / slab_thickness,2)
+            print("Thickness Minimum = L/24 mm"
+                  "\nThickness Minimum =", minimum_thickness,
+                  "\nRatio = ", ratio)
+            if ratio < 1:
+                print("PASS")
+            else:
+                print("FAIL")
+        elif slab_support == 'Both-end Continuous':
+            minimum_thickness = round((slab_length*1000) / 28,2)
+            ratio = round(minimum_thickness / slab_thickness,2)
+            print("Thickness Minimum = L/28 mm"
+                  "\nThickness Minimum =", minimum_thickness,
+                  "\nRatio = ", ratio)
+            if ratio < 1:
+                print("PASS")
+            else:
+                print("FAIL")
+        elif slab_support == 'Cantilever':
+            minimum_thickness = round((slab_length*1000) / 10,2)
+            ratio = round(minimum_thickness / slab_thickness,2)
+            print("Thickness Minimum = L/10 mm"
+                  "\nThickness Minimum =", minimum_thickness,
+                  "\nRatio = ", ratio)
+            if ratio < 1:
+                print("PASS")
+            else:
+                print("FAIL")
+    elif main_bar < 414:
+        if slab_support == 'Simply Supported':
+            minimum_thickness = round((((slab_length*1000) / 20) * (0.4 + (main_bar / 700))),2)
+            ratio = round(minimum_thickness / slab_thickness,2)
+            print("Thickness Minimum = L/20 * (0.4+ (fy/700))"
+                  "\nThickness Minimum =", minimum_thickness,
+                  "\nRatio = ", ratio)
+            if ratio < 1:
+                print("PASS")
+            else:
+                print("FAIL")
+        elif slab_support == 'One-end Continuous':
+            minimum_thickness = round((((slab_length*1000) / 24) * (0.4 + (main_bar / 700))),2)
+            ratio = round(minimum_thickness / slab_thickness,2)
+            print("Thickness Minimum = L/24 * (0.4+ (fy/700))"
+                  "\nThickness Minimum =", minimum_thickness,
+                  "\nRatio = ", ratio)
+            if ratio < 1:
+                print("PASS")
+            else:
+                print("FAIL")
+        elif slab_support == 'Both-end Continuous':
+            minimum_thickness = round((((slab_length*1000) / 28) * (0.4 + (main_bar / 700))),2)
+            ratio = round(minimum_thickness / slab_thickness,2)
+            print("Thickness Minimum = L/28 * (0.4+ (fy/700))"
+                  "\nThickness Minimum =", minimum_thickness,
+                  "\nRatio = ", ratio)
+            if ratio < 1:
+                print("PASS")
+            else:
+                print("FAIL")
+        elif slab_support == 'Cantilever':
+            minimum_thickness = round((((slab_length*1000) / 10) * (0.4 + (main_bar / 700))),2)
+            ratio = round(minimum_thickness / slab_thickness,2)
+            print("Thickness Minimum = L/10 * (0.4+ (fy/700))"
+                  "\nThickness Minimum =", minimum_thickness,
+                  "\nRatio = ", ratio)
+            if ratio < 1:
+                print("PASS")
+            else:
+                print("FAIL")
+
+    ### Design for shear
+    print("\nDesign for Shear")
+    Vu = wu
+    print(Vu)
+
 
 ### ANALYSIS 3
 def analysis(slab_parameters):
@@ -44,11 +114,12 @@ def analysis(slab_parameters):
     USD1 = 1.4 * deadload
     USD2 = (1.4*deadload) + (1.6*liveload)
     wu = max(USD1,USD2)
-    print("USD1 = 1.4DL\n"
-          "USD1 =", round(USD1,3),
-          "\nUSD2 = 1.2DL + 1.6LL\n"
-          "USD2 =", round(USD2,3),
-          "\nWu =", round(wu,3))
+    print("\n"
+          "USD1 = 1.4DL Kpa\n"
+          "USD1 =", round(USD1,3)," Kpa",
+          "\nUSD2 = 1.2DL + 1.6LL Kpa\n"
+          "USD2 =", round(USD2,3)," Kpa",
+          "\nWu =", round(wu,3)," Kpa")
     ### Ultimate Moment
     print("\nUltimate Moment")
     while True:
@@ -68,21 +139,23 @@ def analysis(slab_parameters):
             mucontedge = (wu * (slab_length ** 2)) / 11
             break
         elif slab_support == 'Cantilever':
-            mudiscontedge = 0
-            mumidspan = 0
+
             mucontedge = (wu * (slab_length ** 2)) / 2
             break
-    print("Mu Discontinuous:", round(mudiscontedge,2),
-          "\nMu Midspan:", round(mumidspan,2),
-          "\nMu Continuous:", round(mucontedge,2))
+    print("Mu Discontinuous:", round(mudiscontedge,2)," KN/m",
+          "\nMu Midspan:", round(mumidspan,2)," KN/m",
+          "\nMu Continuous:", round(mucontedge,2)," KN/m")
     ## Ultimate Shear
     print("\nUltimate Shear")
     vusimple = (wu * slab_length) / 2
     vucantilever = wu * slab_length
-    print("\nVu Simply Supported:",round(vusimple,2),
-          "\nVu Cantilever:",round(vucantilever,2))
+    print("Vu Simply Supported:",round(vusimple,2)," KN",
+          "\nVu Cantilever:",round(vucantilever,2)," KN")
 
-    minimum_thickness(parameters)
+    ### Effective Depth
+    effective_depth = slab_thickness - 20 - (10 / 2)
+
+    return wu
 
 
 
@@ -160,9 +233,9 @@ def parameters():
                         Fytemp = 276
                     else:
                         Fytemp = 414
+                    break
                 except ValueError:
-                    print("Invalid input. Please enter a valid bar diameter.")
-            break
+                        print("Invalid input. Please enter a valid bar diameter.")
         elif user_input_irs.lower() == 'y':
             main_bar = 10
             Fymain = 276
@@ -171,6 +244,7 @@ def parameters():
             break
         else:
             print("Invalid input. Please enter either 'Y' or 'N'.")
+        break
 
     slab_parameters['Thickness'] = slab_thickness
     slab_parameters['Length'] = slab_length
@@ -187,12 +261,14 @@ def parameters():
 ### SLAB ANALYSIS 1
 def slab_analysis():
     while True:
-        open_input = input("Open Slab Analysis Program? Y/N : ")
+        open_input = input("\n"
+                           "Open Slab Analysis Program? Y/N : ")
         if open_input.lower() == 'n':
             break
         if open_input.lower() == 'y':
             slab_parameters = parameters()
             analysis(slab_parameters)
+            design(slab_parameters,analysis)
 
 
 
@@ -207,7 +283,3 @@ for key, value in slab.items():
     for inner_key, inner_value in value.items():
         print("  ", inner_key, ":", inner_value)
 
-# for key, value in slab_parameters.items():
-#     print(key, " : ", value)
-# for parameters, value in slab_parameters:
-#     print(parameters, " : ", value)
