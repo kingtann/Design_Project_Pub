@@ -1,6 +1,5 @@
 import math
 
-
 ### Design 4
 def design(slab_parameters,slab_loadings):
     ### Transfer Parameters
@@ -25,89 +24,81 @@ def design(slab_parameters,slab_loadings):
 
     ### Minimum Thickness
     print("\nDESIGN")
-    print("\tMinimum Thickness:")
+    print("\n\tMinimum Thickness:")
     if main_bar == 414:
         if slab_support == 'Simply Supported':
             minimum_thickness = round((slab_length*1000) / 20,2)
             ratiothickness = round(minimum_thickness/slab_thickness,2)
             print("\tThickness Minimum = L/20 mm"
-                  "\n\tThickness Minimum =", minimum_thickness,
-                  "\n\tRatio = ", ratiothickness)
+                  "\n\tThickness Minimum =", minimum_thickness)
             if ratiothickness < 1:
-                print("\t\tPASS")
+                print("\t\t",ratiothickness,"\tPASS")
             else:
-                print("FAIL")
+                print("\t\t",ratiothickness,"\tFAIL")
         elif slab_support == 'One-end Continuous':
             minimum_thickness= round((slab_length*1000) / 24,2)
             ratiothickness = round(minimum_thickness / slab_thickness,2)
-            print("\n\tThickness Minimum = L/24 mm"
-                  "\n\tThickness Minimum =", minimum_thickness,
-                  "\n\tRatio = ", ratiothickness)
+            print("\tThickness Minimum = L/24 mm"
+                  "\n\tThickness Minimum =", minimum_thickness)
             if ratiothickness < 1:
-                print("\t\tPASS")
+                print("\t\t",ratio,"\tPASS")
             else:
-                print("\t\tFAIL")
+                print("\t\t",ratio,"\tFAIL")
         elif slab_support == 'Both-end Continuous':
             minimum_thickness = round((slab_length*1000) / 28,2)
             ratiothickness = round(minimum_thickness / slab_thickness,2)
             print("\n\tThickness Minimum = L/28 mm"
-                  "\n\tThickness Minimum =", minimum_thickness,
-                  "\n\tRatio = ", ratiothickness)
+                  "\n\tThickness Minimum =", minimum_thickness)
             if ratiothickness < 1:
-                print("\t\tPASS")
+                print("\t\t",ratio,"\tPASS")
             else:
-                print("\t\tFAIL")
+                print("\t\t",ratio,"\tFAIL")
         elif slab_support == 'Cantilever':
             minimum_thickness = round((slab_length*1000) / 10,2)
             ratiothickness = round(minimum_thickness / slab_thickness,2)
             print("\n\tThickness Minimum = L/10 mm"
-                  "\n\tThickness Minimum =", minimum_thickness,
-                  "\n\tRatio = ", ratiothickness)
+                  "\n\tThickness Minimum =", minimum_thickness)
             if ratiothickness < 1:
-                print("\t\tPASS")
+                print("\t\t",ratio,"\tPASS")
             else:
-                print("\t\tFAIL")
+                print("\t\t",ratio,"\tFAIL")
     elif main_bar < 414:
         if slab_support == 'Simply Supported':
             minimum_thickness = round((((slab_length*1000) / 20) * (0.4 + (Fymain / 700))),2)
             ratiothickness = round(minimum_thickness / slab_thickness,2)
-            print("\n\tThickness Minimum = L/20 * (0.4+ (fy/700))"
-                  "\n\tThickness Minimum =", minimum_thickness,
-                  "\n\tRatio = ", ratiothickness)
+            print("\tThickness Minimum = L/20 * (0.4+ (fy/700))"
+                  "\n\tThickness Minimum =", minimum_thickness)
             if ratiothickness < 1:
-                print("\t\tPASS")
+                print("\tRatio: ",ratiothickness,"\tPASS")
             else:
-                print("\t\tFAIL")
+                print("\tRatio: ",ratiothickness,"\tFAIL")
         elif slab_support == 'One-end Continuous':
             minimum_thickness = round((((slab_length*1000) / 24) * (0.4 + (Fymain / 700))),2)
             ratiothickness = round(minimum_thickness / slab_thickness,2)
             print("\n\tThickness Minimum = L/24 * (0.4+ (fy/700))"
-                  "\n\tThickness Minimum =", minimum_thickness,
-                  "\n\tRatio = ", ratiothickness)
+                  "\n\tThickness Minimum =", minimum_thickness)
             if ratiothickness < 1:
-                print("\t\tPASS")
+                print("\tRatio: ",ratiothickness,"\tPASS")
             else:
-                print("\t\tFAIL")
+                print("\tRatio: ",ratiothickness,"\tFAIL")
         elif slab_support == 'Both-end Continuous':
             minimum_thickness = float((((slab_length*1000) / 28) * (0.4 + (Fymain / 700))))
             ratiothickness = round(minimum_thickness / slab_thickness,2)
             print("\n\tThickness Minimum = L/28 * (0.4+ (fy/700))"
-                  "\n\tThickness Minimum =", round(minimum_thickness,2),
-                  "\n\tRatio = ", ratiothickness)
+                  "\n\tThickness Minimum =", round(minimum_thickness,2))
             if ratiothickness < 1:
-                print("\t\tPASS")
+                print("\tRatio: ",ratiothickness,"\tPASS")
             else:
-                print("\t\tFAIL")
+                print("\tRatio: ",ratiothickness,"\tFAIL")
         elif slab_support == 'Cantilever':
             minimum_thickness = round((((slab_length*1000) / 10) * (0.4 + (Fymain / 700))),2)
             ratiothickness = round(minimum_thickness / slab_thickness,2)
             print("\n\tThickness Minimum = L/10 * (0.4+ (fy/700))"
-                  "\n\tThickness Minimum =", minimum_thickness,
-                  "\n\tRatio = ", ratiothickness)
+                  "\n\tThickness Minimum =", minimum_thickness)
             if ratiothickness < 1:
-                print("\t\tPASS")
+                print("\tRatio: ",ratiothickness,"\tPASS")
             else:
-                print("\t\tFAIL")
+                print("\tRatio: ",ratiothickness,"\tFAIL")
 
     ### Design for shear
     print("\n\tDesign of Shear:")
@@ -127,63 +118,137 @@ def design(slab_parameters,slab_loadings):
     ratioshear = vu / vc
 
     if ratioshear > 1:
-        print("\tØVc > Vu"
-              "\tRatio = ", round(ratioshear,2),"  PASS")
+        print("\tØVc < Vu"
+              "\tRatio = ", round(ratioshear,2),"\tFAIL")
     else:
         print("\tØVc > Vu"
-              "\n\tRatio = ", round(ratioshear,2),"  FAIL!!!")
+              "\n\tRatio = ", round(ratioshear,2),"\tPASS")
 
-    # ### Design of Reinforcement
-    # print("\n\tDesign of Reinforcement:")
-    # ### Discontinuos Edge
-    # print("\tDiscontinuos Edge")
-    # mu = mudiscontedge
-    # ru = (mu*(10**6))*0.9*1000*(effective_depth**2)
-    #
-    # while True:
-    #     if ru == 0:
-    #         spacing = 0
-    #         break
-    #     else:
-    #         while True:
-    #             ## beta angle
-    #             if fc < 27.6:
-    #                 beta = 0.8
-    #                 break
-    #             else:
-    #                 beta = 0.85 - ((0.05/7)*(fc-27.6))
-    #                 break
-    #
-    #             rhobalance = (0.85*fc*beta*600) / (Fymain*(Fymain*600))
-    #             rhomax = rhobalance *0.75
-    #             ###rhomin
-    #             while True:
-    #                 if main_bar < 414:
-    #                     rhomin = 0.002
-    #                     break
-    #                 else:
-    #                     rhomin = 0.0018
-    #                     break
-    #
-    #             rho = 0.85*(fc/Fymain)*(math.sqrt(1-((2*beta)/(0.85*fc))))
-    #             while True:
-    #                 if rhomin < rho < rhomax:
-    #                     rhogovern = rho
-    #                     break
-    #
-    #                 while True:
-    #                     if rho < rhomin:
-    #                         rhogovern = rhomin
-    #                     else:
-    #                         rhogovern = rho
-    #                     break
-    #             print(rhogovern)
-    #             steelarea = rhogovern*effective_depth*1000
-    #             spacing = min(((math.pi*(main_bar**2)*1000)/4)/steelarea,(slab_thickness*3),450)
-    #             print(spacing)
-    #
-    #
+    ### Design of Reinforcement
+    print("\n\tDesign of Reinforcement:")
 
+    ### Discontinuos Edge
+    print("\tDiscontinuos Edge")
+    rudiscon = (mudiscontedge*(10**6))/(0.9*1000*(effective_depth**2))
+    print("\tRu: ",round(rudiscon,2))
+
+    # if Mu is 0, spacing is 0
+    while True:
+        if rudiscon == 0:
+            spacingdiscon = 0
+            print("\tSpacing: ", round(spacingdiscon,2)," mm")
+            break
+        else:
+            if fc < 27.6:
+                betadiscon = 0.85
+                print("\tB: ", round(betadiscon,2))
+            else:
+                betadiscon = 0.85 - ((0.05/7)*(fc/27.6))
+                print("\tB: ", round(betadiscon,2))
+
+            rhobalancediscon = (0.85*fc*betadiscon*600)/(Fymain*(Fymain+600))
+            rhomaxdiscon = 0.75*rhobalancediscon
+
+            if Fymain < 414:
+                rhomindiscon = 0.02
+            else:
+                rhomindiscon = 0.018
+
+            rhodiscon = ((0.85*fc)/Fymain) * (1-math.sqrt(1 - ((2*rudiscon)/(0.85*fc))))
+
+            if rhomindiscon < rhodiscon < rhomaxdiscon:
+                rhogoverndiscon = rhodiscon
+            elif rhodiscon < rhomindiscon:
+                rhogoverndiscon = rhomindiscon
+            else:
+                rhogoverndiscon = rhomaxdiscon
+
+            steelareadiscon = rhogoverndiscon*1000*effective_depth
+            spacingdiscon = min((0.25*math.pi*(main_bar**2)*1000),3*slab_thickness,450)
+            print("\tSpacing: ",spacingdiscon,' mm')
+            break
+
+    ### Midspan
+    print("\tMidspan")
+    rumid = ( mumidspan * (10 ** 6)) / (0.9 * 1000 * (effective_depth ** 2))
+    print("\tRu: ", round(rumid, 2))
+
+    # if Mu is 0, spacing is 0
+    while True:
+        if rumid == 0:
+            spacingmid = 0
+            print("\tSpacing: ", round(spacingmid, 2), " mm")
+            break
+        else:
+            if fc < 27.6:
+                betamid = 0.85
+                print("\tB: ", round(betamid, 2))
+            else:
+                betamid = 0.85 - ((0.05 / 7) * (fc / 27.6))
+                print("\tB: ", round(betamid, 2))
+
+            rhobalancemid = (0.85 * fc * betamid * 600) / (Fymain * (Fymain + 600))
+            rhomaxmid = 0.75 * rhobalancemid
+
+            if Fymain < 414:
+                rhominmid = 0.02
+            else:
+                rhominmid = 0.018
+
+            rhomid = ((0.85 * fc) / Fymain) * (1 - math.sqrt(1 - ((2 * rumid) / (0.85 * fc))))
+
+            if rhominmid < rhomid < rhomaxmid:
+                rhogovernmid = rhomid
+            elif rhomid < rhominmid:
+                rhogovernmid = rhominmid
+            else:
+                rhogovernmid = rhomaxmid
+
+            steelareamid = rhogovernmid * 1000 * effective_depth
+            spacingmid = min((0.25 * math.pi * (main_bar ** 2) * 1000), 3 * slab_thickness, 450)
+            print("\tSpacing: ", spacingmid, ' mm')
+            break
+
+    ### Continuos Egde
+    print("\tContinuous Edge")
+    rucont = (mucontedge * (10 ** 6)) / (0.9 * 1000 * (effective_depth ** 2))
+    print("\tRu: ", round(rucont, 2))
+
+    # if Mu is 0, spacing is 0
+    while True:
+        if rucont == 0:
+            spacingcont = 0
+            print("\tSpacing: ", round(spacingcont, 2), " mm")
+            break
+        else:
+            if fc < 27.6:
+                betacont = 0.85
+                print("\tB: ", round(betacont, 2))
+            else:
+                betacont = 0.85 - ((0.05 / 7) * (fc / 27.6))
+                print("\tB: ", round(betacont, 2))
+
+            rhobalancecont = (0.85 * fc * betacont * 600) / (Fymain * (Fymain + 600))
+            rhomaxcont = 0.75 * rhobalancecont
+
+            if Fymain < 414:
+                rhomincont = 0.02
+            else:
+                rhomincont = 0.018
+
+            rhocont = ((0.85 * fc) / Fymain) * (1 - math.sqrt(1 - ((2 * rucont) / (0.85 * fc))))
+
+            if rhomincont < rhocont < rhomaxcont:
+                rhogoverncont = rhocont
+            elif rhomid < rhomincont:
+                rhogoverncont = rhomincont
+            else:
+                rhogoverncont = rhomaxcont
+
+            steelareacont = rhogoverncont * 1000 * effective_depth
+            spacingcont = min((0.25 * math.pi * (main_bar ** 2) * 1000), 3 * slab_thickness, 450)
+            print("\tSpacing: ", spacingcont, ' mm')
+            break
 
 ### ANALYSIS 3
 def analysis(slab_parameters):
@@ -198,10 +263,15 @@ def analysis(slab_parameters):
 
     ### Loadings
     print("\nANALYSIS")
-    dead = float((23.54 * slab_thickness) / 1000)
-    superimposed = float(input("\n\tSuperimposed Load (Kpa): "))
-    liveload = float(input("\tLive Load (Kpa): "))
-    deadload = dead + superimposed
+    while True:
+        try:
+            dead = float((23.54 * slab_thickness) / 1000)
+            superimposed = float(input("\n\tSuperimposed Load (Kpa): "))
+            liveload = float(input("\tLive Load (Kpa): "))
+            deadload = dead + superimposed
+            break
+        except(ValueError, ZeroDivisionError):
+            print("Invalid input. Please try again with valid input!")
     ### Ultimate Load
     USD1 = 1.4 * deadload
     USD2 = (1.2*deadload) + (1.6*liveload)
@@ -365,8 +435,8 @@ def parameters():
 
 ### SLAB ANALYSIS 1
 def slab_analysis():
+    print("\t\t\t\tOne-Way Slab Design")
     while True:
-        print("\t\t\t\tOne-Way Slab Design")
         open_input = input("\nOpen Slab Analysis Program? Y/N : ")
         if open_input.lower() == 'n':
             break
@@ -376,16 +446,8 @@ def slab_analysis():
             design(slab_parameters, slab_loadings)
 
 
-
-
-
 slab = {}
 slab_analysis()
 print()
-
-for key, value in slab.items():
-    print(key, ":")
-    for inner_key, inner_value in value.items():
-        print("  ", inner_key, ":", inner_value)
 
 
