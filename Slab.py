@@ -103,15 +103,14 @@ def design(slab_parameters,slab_loadings):
     ### Design for shear
     print("\n\tDesign of Shear:")
     while True:
-        if slab_support == 'Simply Supported' or 'One-end Continuous' or 'Both-end Continuous':
-            vu = round(vusimply,2)
-            print("\tVu = ", vu," kN")
+        if slab_support in ['Simply Supported', 'One-end Continuous', 'Both-end Continuous']:
+            vu = vusimply
+            print("\tVu = ", round(vu,2), " kN")
             break
         elif slab_support == 'Cantilever':
-            vu = round(vucantilever,2)
-            print("\tVu = ", vu," kN")
+            vu = vucantilever
+            print("\tVu = ", round(vu,2), " kN")
             break
-
     print("\tØVc = 0.75 1/6 √f'c bwd")
     vc = 0.75*(1/6)*math.sqrt(fc)*effective_depth
     print("\tØVc = ",round(vc,2), " KN")
@@ -126,72 +125,107 @@ def design(slab_parameters,slab_loadings):
 
     ### Design of Reinforcement
     print("\n\tDesign of Reinforcement:")
-
     ### Discontinuos Edge
-    print("\tDiscontinuos Edge")
-    rudiscon = (mudiscontedge*(10**6))/(0.9*1000*(effective_depth**2))
-    print("\tRu: ",round(rudiscon,2))
+    print("\n\tDiscontinuos Edge\n"
+          "\tMu Discontinuos Edge : ", round(mudiscontedge, 2), " KNm")
+    rudiscon = (mudiscontedge * (10 ** 6)) / (0.9 * 1000 * (effective_depth ** 2))
+    print("\tRu        : ", round(rudiscon, 2))
 
     # if Mu is 0, spacing is 0
     while True:
         if rudiscon == 0:
+            betadiscon = 0
+            rhobalancediscon = 0
+            rhomaxdiscon = 0
+            rhomindiscon = 0
+            rhodiscon = 0
+            rhogoverndiscon = 0
+            steelareadiscon = 0
             spacingdiscon = 0
-            print("\tSpacing: ", round(spacingdiscon,2)," mm")
+            print("\tβ         : ", betadiscon,
+                  "\n\tρb        : ", rhobalancediscon,
+                  "\n\tρmax      : ", rhomaxdiscon,
+                  "\n\tρmin      : ", rhomindiscon,
+                  "\n\tρ         : ", rhodiscon,
+                  "\n\tρgovern   : ", rhogoverndiscon,
+                  "\n\tAs        : ", steelareadiscon, " mm^2",
+                  "\n\tSpacing   : ", round(spacingdiscon, 2), " mm")
             break
         else:
             if fc < 27.6:
                 betadiscon = 0.85
-                print("\tB: ", round(betadiscon,2))
+                print("\tβ        : ", round(betadiscon, 2))
             else:
-                betadiscon = 0.85 - ((0.05/7)*(fc/27.6))
-                print("\tB: ", round(betadiscon,2))
+                betadiscon = 0.85 - ((0.05 / 7) * (fc / 27.6))
+                print("\tβ        : ", round(betadiscon, 2))
 
-            rhobalancediscon = (0.85*fc*betadiscon*600)/(Fymain*(Fymain+600))
-            rhomaxdiscon = 0.75*rhobalancediscon
+            rhobalancediscon = (0.85 * fc * betadiscon * 600) / (Fymain * (Fymain + 600))
+            rhomaxdiscon = 0.75 * rhobalancediscon
 
             if Fymain < 414:
-                rhomindiscon = 0.02
+                rhomindiscon = 0.002
             else:
                 rhomindiscon = 0.018
 
-            rhodiscon = ((0.85*fc)/Fymain) * (1-math.sqrt(1 - ((2*rudiscon)/(0.85*fc))))
+            rhodiscon = ((0.85 * fc) / Fymain) * (1 - math.sqrt(1 - ((2 * rudiscon) / (0.85 * fc))))
 
             if rhomindiscon < rhodiscon < rhomaxdiscon:
                 rhogoverndiscon = rhodiscon
             elif rhodiscon < rhomindiscon:
                 rhogoverndiscon = rhomindiscon
             else:
-                rhogoverndiscon = rhomaxdiscon
+                rhogoverndiscon = rhodiscon
 
-            steelareadiscon = rhogoverndiscon*1000*effective_depth
-            spacingdiscon = min((0.25*math.pi*(main_bar**2)*1000),3*slab_thickness,450)
-            print("\tSpacing: ",spacingdiscon,' mm')
+            steelareadiscon = rhogoverndiscon * 1000 * effective_depth
+            spacingdiscon = min(((0.25 * math.pi * (main_bar ** 2) * 1000) / steelareadiscon), 3 * slab_thickness, 450)
+            print("\tρb        : ", round(rhobalancediscon, 3),
+                  "\n\tρmax      : ", round(rhomaxdiscon, 3),
+                  "\n\tρmin      : ", round(rhomindiscon, 3),
+                  "\n\tρ         : ", round(rhodiscon, 3),
+                  "\n\tρgovern   : ", round(rhogoverndiscon, 3),
+                  "\n\tAs        : ", round(steelareadiscon, 2), " mm^2",
+                  "\n\tSpacing   : ", math.floor((round(spacingdiscon, 2) / 25) * 25), " mm")
             break
 
     ### Midspan
-    print("\tMidspan")
-    rumid = ( mumidspan * (10 ** 6)) / (0.9 * 1000 * (effective_depth ** 2))
-    print("\tRu: ", round(rumid, 2))
+    print("\n\tMidspan\n"
+          "\tMu Midspan   : ", round(mumidspan, 2), " KNm")
+    rumid = (mumidspan * (10 ** 6)) / (0.9 * 1000 * (effective_depth ** 2))
+    print("\tRu        : ", round(rumid, 2))
 
     # if Mu is 0, spacing is 0
     while True:
         if rumid == 0:
+            betamid = 0
+            rhobalancemid = 0
+            rhomaxmid = 0
+            rhominmid = 0
+            rhomid = 0
+            rhogovernmid = 0
+            steelareamid = 0
             spacingmid = 0
-            print("\tSpacing: ", round(spacingmid, 2), " mm")
+            print("\tβ         : ", betamid,
+                  "\n\tρb        : ", rhobalancemid,
+                  "\n\tρmax      : ", rhomaxmid,
+                  "\n\tρmin      : ", rhominmid,
+                  "\n\tρ         : ", rhomid,
+                  "\n\tρgovern   : ", rhogovernmid,
+                  "\n\tAs        : ", steelareamid, " mm^2",
+                  "\n\tSpacing   : ", round(spacingmid, 2), " mm")
             break
         else:
             if fc < 27.6:
                 betamid = 0.85
-                print("\tB: ", round(betamid, 2))
+                print("\tβ         : ", round(betamid, 2))
             else:
                 betamid = 0.85 - ((0.05 / 7) * (fc / 27.6))
-                print("\tB: ", round(betamid, 2))
+                print("\tβ         : ", round(betamid, 2))
 
             rhobalancemid = (0.85 * fc * betamid * 600) / (Fymain * (Fymain + 600))
             rhomaxmid = 0.75 * rhobalancemid
 
             if Fymain < 414:
-                rhominmid = 0.02
+                rhominmid = 0.002
             else:
                 rhominmid = 0.018
 
@@ -202,37 +236,58 @@ def design(slab_parameters,slab_loadings):
             elif rhomid < rhominmid:
                 rhogovernmid = rhominmid
             else:
-                rhogovernmid = rhomaxmid
+                rhogovernmid = rhomid
 
             steelareamid = rhogovernmid * 1000 * effective_depth
-            spacingmid = min((0.25 * math.pi * (main_bar ** 2) * 1000), 3 * slab_thickness, 450)
-            print("\tSpacing: ", spacingmid, ' mm')
+            spacingmid = min(((0.25 * math.pi * (main_bar ** 2) * 1000) / steelareamid), 3 * slab_thickness, 450)
+            print("\tρb        : ", round(rhobalancemid, 3),
+                  "\n\tρmax      : ", round(rhomaxmid, 3),
+                  "\n\tρmin      : ", round(rhominmid, 3),
+                  "\n\tρ         : ", round(rhomid, 3),
+                  "\n\tρgovern   : ", round(rhogovernmid, 3),
+                  "\n\tAs        : ", round(steelareamid, 2), " mm^2",
+                  "\n\tSpacing   : ", math.floor((round(spacingmid, 2) / 25) * 25), " mm")
             break
 
     ### Continuos Egde
-    print("\tContinuous Edge")
+    print("\n\tContinuous Edge\n"
+          "\tMu Continuous Edge   : ", round(mucontedge,2)," KNm")
     rucont = (mucontedge * (10 ** 6)) / (0.9 * 1000 * (effective_depth ** 2))
-    print("\tRu: ", round(rucont, 2))
+    print("\tRu        : ", round(rucont, 2))
 
     # if Mu is 0, spacing is 0
     while True:
         if rucont == 0:
+            betacont = 0
+            rhobalancecont = 0
+            rhomaxcont = 0
+            rhomincont = 0
+            rhocont = 0
+            rhogoverncont = 0
+            steelareacont = 0
             spacingcont = 0
-            print("\tSpacing: ", round(spacingcont, 2), " mm")
+            print("\tβ           : ", betacont,
+                  "\n\tρb        : ", rhobalancecont,
+                  "\n\tρmax      : ", rhomaxcont,
+                  "\n\tρmin      : ", rhomincont,
+                  "\n\tρ         : ", rhocont,
+                  "\n\tρgovern   : ", rhogoverncont,
+                  "\n\tAs        : ", steelareacont, " mm^2"
+                  "\n\tSpacing   : ", round(spacingcont, 2), " mm")
             break
         else:
             if fc < 27.6:
                 betacont = 0.85
-                print("\tB: ", round(betacont, 2))
+                print("\tβ         : ", round(betacont, 2))
             else:
                 betacont = 0.85 - ((0.05 / 7) * (fc / 27.6))
-                print("\tB: ", round(betacont, 2))
+                print("\tβ         : ", round(betacont, 2))
 
             rhobalancecont = (0.85 * fc * betacont * 600) / (Fymain * (Fymain + 600))
             rhomaxcont = 0.75 * rhobalancecont
 
             if Fymain < 414:
-                rhomincont = 0.02
+                rhomincont = 0.002
             else:
                 rhomincont = 0.018
 
@@ -240,14 +295,20 @@ def design(slab_parameters,slab_loadings):
 
             if rhomincont < rhocont < rhomaxcont:
                 rhogoverncont = rhocont
-            elif rhomid < rhomincont:
+            elif rhocont < rhomincont:
                 rhogoverncont = rhomincont
             else:
-                rhogoverncont = rhomaxcont
+                rhogoverncont = rhocont
 
             steelareacont = rhogoverncont * 1000 * effective_depth
-            spacingcont = min((0.25 * math.pi * (main_bar ** 2) * 1000), 3 * slab_thickness, 450)
-            print("\tSpacing: ", spacingcont, ' mm')
+            spacingcont = min(((0.25 * math.pi * (main_bar ** 2) * 1000)/steelareacont), 3 * slab_thickness, 450)
+            print("\tρb        : ", round(rhobalancecont,3),
+                  "\n\tρmax      : ", round(rhomaxcont,3),
+                  "\n\tρmin      : ", round(rhomincont,3),
+                  "\n\tρ         : ", round(rhocont,3),
+                  "\n\tρgovern   : ", round(rhogoverncont,3),
+                  "\n\tAs        : ", round(steelareacont,2), " mm^2"
+                  "\n\tSpacing   : ", math.floor((round(spacingcont,2)/25)*25)," mm")
             break
 
 ### ANALYSIS 3
@@ -305,9 +366,9 @@ def analysis(slab_parameters):
             mumidspan = 0
             mucontedge = float((wu * (slab_length ** 2)) / 2)
             break
-    print("\tMu Discontinuous:", round(mudiscontedge,2)," KN/m",
-          "\n\tMu Midspan:", round(mumidspan,2)," KN/m",
-          "\n\tMu Continuous:", round(mucontedge,2)," KN/m")
+    print("\tMu Discontinuous:", round(mudiscontedge,2)," KNm",
+          "\n\tMu Midspan:", round(mumidspan,2)," KNm",
+          "\n\tMu Continuous:", round(mucontedge,2)," KNm")
     ## Ultimate Shear
     print("\n\tUltimate Shear")
     vusimply = (wu * slab_length) / 2
@@ -435,7 +496,7 @@ def parameters():
 
 ### SLAB ANALYSIS 1
 def slab_analysis():
-    print("\t\t\t\tOne-Way Slab Design")
+    print("\t\t\t\t\t\t\t\tOne-Way Slab Design")
     while True:
         open_input = input("\nOpen Slab Analysis Program? Y/N : ")
         if open_input.lower() == 'n':
