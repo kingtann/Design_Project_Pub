@@ -41,27 +41,27 @@ def design(slab_parameters,slab_loadings):
             print("\tThickness Minimum = L/24 mm"
                   "\n\tThickness Minimum =", minimum_thickness)
             if ratiothickness < 1:
-                print("\t\t",ratio,"\tPASS")
+                print("\t\t",ratiothickness,"\tPASS")
             else:
-                print("\t\t",ratio,"\tFAIL")
+                print("\t\t",ratiothickness,"\tFAIL")
         elif slab_support == 'Both-end Continuous':
             minimum_thickness = round((slab_length*1000) / 28,2)
             ratiothickness = round(minimum_thickness / slab_thickness,2)
             print("\n\tThickness Minimum = L/28 mm"
                   "\n\tThickness Minimum =", minimum_thickness)
             if ratiothickness < 1:
-                print("\t\t",ratio,"\tPASS")
+                print("\t\t",ratiothickness,"\tPASS")
             else:
-                print("\t\t",ratio,"\tFAIL")
+                print("\t\t",ratiothickness,"\tFAIL")
         elif slab_support == 'Cantilever':
             minimum_thickness = round((slab_length*1000) / 10,2)
             ratiothickness = round(minimum_thickness / slab_thickness,2)
             print("\n\tThickness Minimum = L/10 mm"
                   "\n\tThickness Minimum =", minimum_thickness)
             if ratiothickness < 1:
-                print("\t\t",ratio,"\tPASS")
+                print("\t\t",ratiothickness,"\tPASS")
             else:
-                print("\t\t",ratio,"\tFAIL")
+                print("\t\t",ratiothickness,"\tFAIL")
     elif main_bar < 414:
         if slab_support == 'Simply Supported':
             minimum_thickness = round((((slab_length*1000) / 20) * (0.4 + (Fymain / 700))),2)
